@@ -1,0 +1,22 @@
+{
+    "name": "jerryhopper/easy-jwt-php",
+    "description":"easy jwt decoder using .well-known service discovery",
+    "keywords":["openid","oauth2","jwt","servicediscovery","service discovery"],
+    "type":"library",
+    "license":"MIT",
+    "authors":[
+        {
+            "name":"Jerry Hopper",
+            "email": "hopper.jerry@gmail.com",
+            "homepage":"https://jerryhopper.com"
+        }
+    ],
+    "homepage": "https://github.com/jerryhopper/easy-jwt-php",
+    "autoload": {
+        "psr-4": { "JerryHopper\\EasyJwt\\": "src/" }
+    },
+    "require": {
+        "jerryhopper/service-discovery-php": "^0.1.6",
+        "web-token/jwt-framework": "^2.0"
+    }
+}
