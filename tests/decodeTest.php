@@ -170,7 +170,7 @@ final class decodeTest extends TestCase
         $decoded = new Decode($this->token,$this->discoveryUrl,$audience,$issuer); //
 
         //print_r($decoded);
-
+        $this->assertTrue(is_object($decoded));
     }
 
 
