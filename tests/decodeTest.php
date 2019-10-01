@@ -79,7 +79,6 @@ final class decodeTest extends TestCase
 
         $this->clientId = $response->successResponse->application->oauthConfiguration->clientId;
         $this->clientSecret = $response->successResponse->application->oauthConfiguration->clientSecret;
-        //echo "\n*************************************************\r\n".$this->clientId."\r\n**********************************";
 
 
         $this->discoveryData = new Discovery($this->discoveryUrl);
@@ -130,36 +129,6 @@ final class decodeTest extends TestCase
 
 
 
-        /*
-
-                $randomId = rand(0,100);
-                // Create it
-                $response = $this->client->createUser(null, ["user" => ["email" => "test".$randomId."@fusionauth.io", "password" => "password", "firstName" => "Jäne"]]);
-                $this->handleResponse($response);
-                $this->userId = $response->successResponse->user->id;
-
-                // Retrieve it
-                $response = $this->client->retrieveUser($this->userId);
-                $this->handleResponse($response);
-                $this->assertEquals($response->successResponse->user->email, "test".$randomId."@fusionauth.io");
-
-                // Login
-                $response = $this->client->login(["loginId" => "test".$randomId."@fusionauth.io", "password" => "password"]);
-                $this->handleResponse($response);
-
-                $this->token = $response->successResponse->token;
-
-                // Delete it
-                $response = $this->client->deleteUser($this->userId);
-                $this->handleResponse($response);
-
-                // Retrieve it again
-                $response = $this->client->retrieveUser($this->userId);
-                $this->assertEquals($response->status, 404);
-
-
-            }
-        */
     }
 
     public function test_token()
