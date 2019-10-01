@@ -139,7 +139,7 @@ final class decodeTest extends TestCase
         $decoded = new Decode($this->token,$this->discoveryUrl,$audience,$issuer); //
 
         //print_r($decoded);
-        $this->assertTrue(true);
+        //$this->assertTrue(true);
     }
     public function test_expiredtoken()
     {
