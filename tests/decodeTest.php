@@ -62,7 +62,7 @@ final class decodeTest extends TestCase
                     "jwtConfiguration"=>[
                         "enabled"=> true,
                         "refreshTokenTimeToLiveInMinutes"=>100,
-                        "timeToLiveInSeconds"=>100
+                        "timeToLiveInSeconds"=>3
                     ]
                 ]
             ]);
@@ -141,7 +141,18 @@ final class decodeTest extends TestCase
         //print_r($decoded);
         $this->assertTrue(true);
     }
+    public function test_expiredtoken()
+    {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        sleep(6);
+        $issuer = false;
+        $audience = false;
 
+        $decoded = new Decode($this->token,$this->discoveryUrl,$audience,$issuer); //
+
+        //print_r($decoded);
+        $this->assertTrue(true);
+    }
 
 
 
