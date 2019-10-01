@@ -117,7 +117,7 @@ class  Decode {
     private function createAlgoManagerFromDiscovery($discover){
         $algos = array();
 
-        foreach( $discover->get()['id_token_signing_alg_values_supported'] as $item){
+        foreach( $discover->get('id_token_signing_alg_values_supported') as $item){
             try{
                 $item = '\\Jose\\Component\\Signature\\Algorithm\\'.$item;
                 $algos[] = new $item();
