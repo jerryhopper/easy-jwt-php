@@ -29,39 +29,54 @@ class  Decode {
 
     function __construct( String $token, String $discoveryUrl, $audience=false,$issuer=false )
     {
-        // initiate the discovery
-        $discovery = new Discovery($discoveryUrl);
-
-        // create the jwkset
-        $jwkSet = JWKSet::createFromKeyData( $discovery->get()['jwks_uri']);
-
-
-        $algorithmManager = $this->createAlgoManagerFromDiscovery($discovery);
-
         // The serializer manager. We only use the JWS Compact Serialization Mode.
         $serializerManager = new JWSSerializerManager([
             new CompactSerializer(),
         ]);
+
+
+        // initiate the discovery
+        $discovery = new Discovery($discoveryUrl);
+        // create the jwkset
+        //echo "create the jwkset\n\r";
+        $jwkSet = JWKSet::createFromKeyData( $discovery->get('jwks_uri'));
+
+
+
+
+
+        //echo "create the Algomanager\n\r";
+        $algorithmManager = $this->createAlgoManagerFromDiscovery($discovery);
+        // We instantiate our JWS Verifier.
+        $jwsVerifier = new JWSVerifier($algorithmManager);
+        //print_r($jwsVerifier);
+
+
+
+
+
+
+
         $jwt = $serializerManager->unserialize($token);
 
-        $decodePayload = json_decode($jwt->getPayload());
 
-        // get the audience and issuer from the token..
-        //$audience   = $decodePayload->aud;
-        //$issuer     = $decodePayload->iss;
-        //print_r($decodePayload);
-        // We instantiate our JWS Verifier.
 
-        $jwsVerifier = new JWSVerifier($this->createAlgoManagerFromDiscovery($discovery));
+
+
 
         $is_valid = $jwsVerifier->verifyWithKeySet($jwt, $jwkSet,0);
+
 
         if( !$is_valid ){
             throw new \Exception("Invalid token");
         }
+        // Signature is verified.
+
+
+        //$issuer = $this->issuerCheck($discovery->get('issuer'));
 
         if($issuer==false){
-            $issuer = array($discovery->issuer);
+            $issuer = array($discovery->get('issuer'));
         }elseif( is_string($issuer) ){
             $issuer = array($issuer);
         }elseif(!is_array($issuer)){
@@ -71,8 +86,21 @@ class  Decode {
 
         $this->claimcheck($jwt,$issuer,$audience);
 
+        //echo "decoded payload\n\r";
+        $decodePayload = json_decode($jwt->getPayload());
+
+        //print_r($decodePayload);
+        // get the audience and issuer from the token..
+        //$audience   = $decodePayload->aud;
+        //$issuer     = $decodePayload->iss;
+        //print_r($decodePayload);
+
         $this->payload = (array)$decodePayload;
     }
+    function issuerCheck($i){
+
+    }
+
     public function __debugInfo(){
         return $this->payload;
     }
@@ -88,7 +116,8 @@ class  Decode {
 
     private function createAlgoManagerFromDiscovery($discover){
         $algos = array();
-        foreach( $discover->id_token_signing_alg_values_supported as $item){
+
+        foreach( $discover->get()['id_token_signing_alg_values_supported'] as $item){
             try{
                 $item = '\\Jose\\Component\\Signature\\Algorithm\\'.$item;
                 $algos[] = new $item();
