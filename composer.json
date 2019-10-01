@@ -20,7 +20,8 @@
         "fusionauth/fusionauth-client": "*"
     },
     "require": {
-        "jerryhopper/service-discovery-php": "^0.1.6",
+        "php": "^7.2",
+        "jerryhopper/service-discovery-php": "^0.1.10",
         "web-token/jwt-framework": "^2.0"
     },
     "scripts": {
