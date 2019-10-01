@@ -25,11 +25,5 @@
     },
     "scripts": {
         "test": "phpunit --bootstrap vendor/autoload.php tests/decodeTest"
-    },
-    "repositories":[
-        {
-            "type": "vcs",
-            "url": "https://github.com/jerryhopper/fusionauth-php-client.git"
-        }
-    ]
+    }
 }
