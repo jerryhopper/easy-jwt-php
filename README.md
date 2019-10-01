@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jerryhopper/easy-jwt-php.svg?branch=master)](https://travis-ci.org/jerryhopper/easy-jwt-php?branch=master)
+
 # easy-jwt-php
 Absurdly simple jwt decoder/verifier using .well-known service discovery oauth/openid spec.
 
