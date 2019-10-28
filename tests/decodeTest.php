@@ -217,9 +217,9 @@ final class decodeTest extends TestCase
     public function tearDown()
     {
         // Remove the created application.
-        if($this->applicationId==false){
+        //if($this->applicationId==false){
             $this->fusionAuthClient->deleteApplication($this->applicationId);
-        }
+        //}
         //
         // Remove the created user.
         $this->fusionAuthClient->deleteUser($this->userId);
