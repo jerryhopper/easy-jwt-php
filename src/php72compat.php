@@ -43,10 +43,17 @@ class php72compat implements decoderInterface{
 
     public function validate( $audience=false,$issuer=false ){
 
+        if($audience===false){
+            $audience="false";
+        }
+
+
         if($issuer==false){
             $issuer = array($this->discoverydata->get('issuer'));
+
         }elseif( is_string($issuer) ){
             $issuer = array($issuer);
+
         }elseif(!is_array($issuer)){
             throw new \Exception('claimcheck error: Invalid issuer');
         }
@@ -101,11 +108,11 @@ class php72compat implements decoderInterface{
     private function claimcheck($jwt,array $issuer,string $audience){
         $claims = json_decode($jwt->getPayload(), true);
 
-        $checks[]=new Checker\IssuedAtChecker();
+        $checks[]=new Checker\IssuedAtChecker(1000); // We check the "iat" claim. Leeway is 1000ms (1s)
         $checks[]=new Checker\NotBeforeChecker();
         $checks[]=new Checker\ExpirationTimeChecker();
 
-        if($audience != false){
+        if($audience != 'false'){
             $checks[]=new Checker\AudienceChecker($audience);
         }
 

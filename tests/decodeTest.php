@@ -36,6 +36,9 @@ final class decodeTest extends TestCase
 
     public function setUp()
     {
+
+
+
         // Set some unique identifiers.
         $this->sessionIdentifier = time().rand(10,100);
         $this->applicationName = $this->applicationName.'-'.$this->sessionIdentifier;
@@ -45,14 +48,32 @@ final class decodeTest extends TestCase
         $this->discoveryUrl = getenv('FUSIONAUTH_DISCOVERYURL'); //'https://fusionauth.devpoc.nl/.well-known/openid-configuration';
 
 
+        $issuer = getenv('FUSIONAUTH_CHECK_ISS');
+        if( $issuer==="false"){
+            $this->issuer = false;
+        }else{
+            $this->issuer = $issuer;
+        }
+
+        $audience = getenv('FUSIONAUTH_CHECK_AUD');
+        if( $audience==="false"){
+            $this->audience = false;
+        }else{
+            $this->audience = $audience;
+        }
+
+
+
+
         $this->setup_setupapplication();
     }
     public function setup_setupapplication()
     {
+        //fwrite(STDOUT, __METHOD__ . "\n");
         //
         // Create Application
         //
-        if($this->applicationId==false){
+        if($this->applicationId===false){
             $response = $this->fusionAuthClient->createApplication(null, [
                 "application" => [
                     "name" => $this->applicationName,
@@ -66,9 +87,15 @@ final class decodeTest extends TestCase
                     ]
                 ]
             ]);
+
+            //echo $response;
             $this->handleResponse($response);
+
             $this->applicationId = $response->successResponse->application->id;
         }
+
+
+        //die($this->applicationId);
         //
         // Retrieve it
         //
@@ -84,11 +111,11 @@ final class decodeTest extends TestCase
         $this->discoveryData = new Discovery($this->discoveryUrl);
 
 
-
         $this->setup_createuser();
     }
     public function setup_createuser()
     {
+        //fwrite(STDOUT, __METHOD__ . "\n");
         //
         // Create user
         //
@@ -105,6 +132,8 @@ final class decodeTest extends TestCase
 
     function setup_loginuser(){
         // login via tokenEndpoint.
+        //fwrite(STDOUT, __METHOD__ . "\n");
+
         $guzzle = new Client();
         $formParams = [
             'grant_type' => 'password',
@@ -133,14 +162,43 @@ final class decodeTest extends TestCase
 
     public function test_token()
     {
-        $issuer = false;
-        $audience = false;
 
-        $decoded = new Decode($this->token,$this->discoveryUrl,$audience,$issuer); //
+        //echo ">>>".getenv('FUSIONAUTH_APIKEY');
 
-        //print_r($decoded);
+        //fwrite(STDOUT, __METHOD__ . "\n");
+        //fwrite(STDOUT, json_encode([$this->issuer]) . "\n");
+        //fwrite(STDOUT, json_encode([$this->audience]) . "\n");
+        //var_dump("----------------------");
+        //var_dump($this->audience);
+        $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,$this->issuer); //
+        //var_dump($decoded);
+        //print_r($this->audience);
+        $this->assertTrue(true);
+    }
+
+    public function test_token_with_bad_audience()
+    {
+
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $decoded = new Decode($this->token,$this->discoveryUrl,"faulty",false); //
         //$this->assertTrue(true);
     }
+
+    public function test_token_with_manual_issuer()
+    {
+        $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,"fusionauth.devpoc.nl"); //
+        $this->assertTrue(true);
+    }
+
+    public function test_token_with_bad_issuer()
+    {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,"faulty"); //
+        //$this->assertFalse(false);
+        //$this->assert
+    }
+
+
     public function test_expiredtoken()
     {
         $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
@@ -148,10 +206,10 @@ final class decodeTest extends TestCase
         $issuer = false;
         $audience = false;
 
-        $decoded = new Decode($this->token,$this->discoveryUrl,$audience,$issuer); //
+        $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,$this->issuer); //
 
         //print_r($decoded);
-        $this->assertTrue(true);
+        //$this->assertTrue(true);
     }
 
 
@@ -159,9 +217,9 @@ final class decodeTest extends TestCase
     public function tearDown()
     {
         // Remove the created application.
-        //if($this->applicationId==false){
+        if($this->applicationId==false){
             $this->fusionAuthClient->deleteApplication($this->applicationId);
-        //}
+        }
         //
         // Remove the created user.
         $this->fusionAuthClient->deleteUser($this->userId);

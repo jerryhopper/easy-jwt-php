@@ -30,6 +30,7 @@ class  Decode {
 
     function __construct( String $token, String $discoveryUrl, $audience=false,$issuer=false )
     {
+
         // initiate the discovery
         $discovery = new Discovery($discoveryUrl);
 
@@ -38,7 +39,7 @@ class  Decode {
         $compatibleDecoder = new php72compat($token,$discovery);
 
         // validate token
-        $is_valid = $compatibleDecoder->validate();
+        $is_valid = $compatibleDecoder->validate($audience,$issuer);
 
 
         if( !$is_valid ){
