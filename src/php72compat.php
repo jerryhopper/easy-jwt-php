@@ -112,7 +112,8 @@ class php72compat implements decoderInterface{
         $checks[]=new Checker\NotBeforeChecker();
         $checks[]=new Checker\ExpirationTimeChecker();
 
-        if($audience != 'false'){
+        if($audience != "false"){
+
             $checks[]=new Checker\AudienceChecker($audience);
         }
 
