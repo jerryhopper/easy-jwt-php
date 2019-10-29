@@ -170,17 +170,17 @@ final class decodeTest extends TestCase
         //fwrite(STDOUT, json_encode([$this->audience]) . "\n");
         //var_dump("----------------------");
         //var_dump($this->token);
-
+        sleep(1);
         $decoded = new Decode($this->token,$this->discoveryUrl,false,false); //
-        $this->assertTrue(true);
         //var_dump($decoded);
+        $this->assertTrue(true);
         //print_r($this->audience);
         //$this->assertTrue(true);
     }
 
     public function test_token_with_bad_audience()
     {
-
+        sleep(1);
         $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
         $decoded = new Decode($this->token,$this->discoveryUrl,"faulty",false); //
         //$this->assertTrue(true);
@@ -188,6 +188,7 @@ final class decodeTest extends TestCase
 
     public function test_token_with_manual_issuer()
     {
+        sleep(1);
         $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,"fusionauth.devpoc.nl"); //
         $this->assertTrue(true);
     }
