@@ -169,11 +169,13 @@ final class decodeTest extends TestCase
         //fwrite(STDOUT, json_encode([$this->issuer]) . "\n");
         //fwrite(STDOUT, json_encode([$this->audience]) . "\n");
         //var_dump("----------------------");
-        //var_dump($this->audience);
-        $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,$this->issuer); //
+        //var_dump($this->token);
+
+        $decoded = new Decode($this->token,$this->discoveryUrl,false,false); //
+        $this->assertTrue(true);
         //var_dump($decoded);
         //print_r($this->audience);
-        $this->assertTrue(true);
+        //$this->assertTrue(true);
     }
 
     public function test_token_with_bad_audience()
@@ -194,10 +196,9 @@ final class decodeTest extends TestCase
     {
         $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
         $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,"faulty"); //
-        //$this->assertFalse(false);
+        $this->assertTrue(true);
         //$this->assert
     }
-
 
     public function test_expiredtoken()
     {
@@ -211,8 +212,6 @@ final class decodeTest extends TestCase
         //print_r($decoded);
         //$this->assertTrue(true);
     }
-
-
 
     public function tearDown()
     {

@@ -43,6 +43,7 @@ class php72compat implements decoderInterface{
 
     public function validate( $audience=false,$issuer=false ){
 
+
         if($audience===false){
             $audience="false";
         }
