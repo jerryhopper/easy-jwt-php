@@ -38,7 +38,6 @@ final class decodeTest extends TestCase
     {
 
 
-
         // Set some unique identifiers.
         $this->sessionIdentifier = time().rand(10,100);
         $this->applicationName = $this->applicationName.'-'.$this->sessionIdentifier;
