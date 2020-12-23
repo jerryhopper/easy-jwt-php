@@ -186,7 +186,7 @@ final class decodeTest extends TestCase
 
     public function test_token_with_manual_issuer()
     {
-        $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,"fusionauth.devpoc.nl"); //
+        $decoded = new Decode($this->token,$this->discoveryUrl,$this->audience,$this->issuer); //
         $this->assertTrue(true);
     }
 
