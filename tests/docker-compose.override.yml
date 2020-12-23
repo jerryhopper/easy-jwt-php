@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  fusionauth:
+    container_name: fusionauth
+    environment:
+      - FUSIONAUTH_APP_KICKSTART_FILE=${FUSIONAUTH_APP_KICKSTART_FILE}
+      - FUSIONAUTH_ADMIN_PASSWORD=supersecret
+      - FUSIONAUTH_API_KEY=${FUSIONAUTH_API_KEY}
+      - DEF_TENANTID=${DEF_TENANTID}
+      - APPLICATION_ID=${APPLICATION_ID}
+      - APP_USEREMAIL=${APP_USEREMAIL}
+      - APP_USERPASSWORD=${APP_USERPASSWORD}
+
+    volumes:
+      - ./tests/kickstart:/usr/local/fusionauth/kickstart
+      - fa_config:/usr/local/fusionauth/config
