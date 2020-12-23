@@ -20,6 +20,7 @@ before_install:
   - export FUSIONAUTH_CHECK_ISS=false
   - export FUSIONAUTH_CHECK_AUD=false
   - ## copy to .env
+  - echo "">>.env
   - echo "DISCOVERY_URL=http://localhost:9011/.well-known/openid-configuration">>.env
   - echo "FUSIONAUTH_API_KEY=4737ea8520bd454caabb7cb3d36e14bc1832c0d3f70a4189b82598670f11b1bd">>.env
   - echo "FUSIONAUTH_APP_KICKSTART_FILE=/usr/local/fusionauth/kickstart/kickstart.json">>.env

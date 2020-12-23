@@ -11,7 +11,6 @@ services:
       - APPLICATION_ID=${APPLICATION_ID}
       - APP_USEREMAIL=${APP_USEREMAIL}
       - APP_USERPASSWORD=${APP_USERPASSWORD}
-
     volumes:
       - ./tests/kickstart:/usr/local/fusionauth/kickstart
       - fa_config:/usr/local/fusionauth/config
