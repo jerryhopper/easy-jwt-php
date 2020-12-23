@@ -37,6 +37,7 @@ before_install:
   - docker-compose config
   - ## Make sure Fusionauth is started up completely
   - sleep 45
+  - docker-compose config
   - curl http://localhost:9011
 install: composer install
 script: composer test
