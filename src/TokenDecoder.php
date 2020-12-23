@@ -20,7 +20,7 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
 
 
 
-class php72compat implements decoderInterface{
+class TokenDecoder implements DecoderInterface{
 
     private $token;
     private $discoverydata;
@@ -31,7 +31,7 @@ class php72compat implements decoderInterface{
 
 
 
-    function __construct($token, $discovery){
+    function __construct( string $token, $discovery){
         $this->token = $token;
         $this->discoverydata = $discovery;
         $this->prepare();
@@ -94,7 +94,6 @@ class php72compat implements decoderInterface{
 
     private function createAlgoManagerFromDiscovery($discover){
         $algos = array();
-
         foreach( $discover->get('id_token_signing_alg_values_supported') as $item){
             try{
                 $item = '\\Jose\\Component\\Signature\\Algorithm\\'.$item;
@@ -114,7 +113,6 @@ class php72compat implements decoderInterface{
         $checks[]=new Checker\ExpirationTimeChecker();
 
         if($audience != "false"){
-
             $checks[]=new Checker\AudienceChecker($audience);
         }
 
